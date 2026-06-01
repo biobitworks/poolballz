@@ -34,8 +34,8 @@ const defaultForm = {
   name: '',
   type: 'Pool Hall',
   address: '',
-  city: 'Austin',
-  state: 'TX',
+  city: '',
+  state: '',
   zip: '',
   phone: '',
   website: '',
@@ -158,12 +158,16 @@ function Directory({ venues, selectedId, onSelect, filters, setFilters }) {
                 {venue.city}, {venue.state} · {venue.type} · {venue.tableCount || '?'} tables
               </span>
               <span>
-                {venue.tableRate} · {venue.drinkCost} · {venue.crowdLevel}
+                {[venue.tableRate, venue.drinkCost, venue.crowdLevel]
+                  .filter(Boolean)
+                  .join(' · ') || 'No community reports yet'}
               </span>
               <span className="tag-row">
-                {[venue.vibe, ...(venue.amenities || []).slice(0, 2)].map((tag) => (
-                  <em key={tag}>{tag}</em>
-                ))}
+                {[venue.vibe, ...(venue.amenities || []).slice(0, 2)]
+                  .filter(Boolean)
+                  .map((tag) => (
+                    <em key={tag}>{tag}</em>
+                  ))}
               </span>
             </span>
             <span className="row-side">
@@ -812,7 +816,7 @@ export default function App() {
   const [locationStatus, setLocationStatus] = useState('');
   const [filters, setFilters] = useState({
     query: '',
-    city: 'Austin',
+    city: '',
     type: 'All',
     crowdLevel: 'All',
   });

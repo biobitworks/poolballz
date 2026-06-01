@@ -71,6 +71,10 @@ describe('Poolballz app venue submission', () => {
     await user.selectOptions(addPanel.getByLabelText('Venue Type'), 'Pool Bar');
     await user.clear(addPanel.getByLabelText('Address'));
     await user.type(addPanel.getByLabelText('Address'), '700 Rack Ave');
+    await user.clear(addPanel.getByLabelText('City'));
+    await user.type(addPanel.getByLabelText('City'), 'Austin');
+    await user.clear(addPanel.getByLabelText('State'));
+    await user.type(addPanel.getByLabelText('State'), 'TX');
     await user.clear(addPanel.getByLabelText('Tables'));
     await user.type(addPanel.getByLabelText('Tables'), '14');
     await user.selectOptions(addPanel.getByLabelText('Vibe'), 'Divey');
