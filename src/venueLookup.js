@@ -1,8 +1,12 @@
 const NOMINATIM_SEARCH_URL = 'https://nominatim.openstreetmap.org/search';
 
 export async function searchVenueByName({ name, city, state }) {
-  const query = [name, city, state, 'billiards OR pool hall'].filter(Boolean).join(' ');
   if (!name?.trim()) return [];
+  // Nominatim does free-text matching and does NOT support boolean operators.
+  // Appending "billiards OR pool hall" was treated as literal required tokens,
+  // which made real venues (e.g. "Stork Club") return zero results. Search on
+  // the user-entered name plus optional city/state and let the user pick.
+  const query = [name, city, state].filter(Boolean).join(' ');
 
   const url = new URL(NOMINATIM_SEARCH_URL);
   url.searchParams.set('q', query);

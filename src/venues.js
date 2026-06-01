@@ -138,6 +138,39 @@ export const seedVenues = [
       },
     ],
   },
+  {
+    // Verified from OpenStreetMap (way/36979364): tagged amenity=bar with
+    // sport=billiards, confirming it is a real pool bar. Only OSM-sourced facts
+    // are filled in here; pool-specific details are left blank for community
+    // reports rather than fabricated.
+    id: 'thee-stork-club',
+    source: 'OpenStreetMap',
+    name: 'Thee Stork Club',
+    type: 'Pool Bar',
+    city: 'Oakland',
+    state: 'CA',
+    address: '2330 Telegraph Ave',
+    zip: '94612',
+    lat: 37.8131364,
+    lng: -122.2683848,
+    distance: 0,
+    tableCount: null,
+    vibe: '',
+    tableRate: '',
+    drinkCost: '',
+    crowdLevel: '',
+    busyTimes: '',
+    hours: '4:00 PM - 2:00 AM',
+    openNow: false,
+    phone: '',
+    website: 'theestorkclub.com',
+    mapsUrl:
+      'https://www.openstreetmap.org/?mlat=37.8131364&mlon=-122.2683848#map=16/37.8131364/-122.2683848',
+    description:
+      'Oakland bar with billiards, imported from OpenStreetMap. Table count, rates, vibe, and busy times need community reports.',
+    amenities: ['Full Bar'],
+    reports: [],
+  },
 ];
 
 export function createVenueId(name) {
