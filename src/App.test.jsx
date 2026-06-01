@@ -47,6 +47,7 @@ const voteTestVenues = [
 
 function useVoteTestVenue() {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(voteTestVenues));
+  vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('local-only test fixture')));
 }
 
 describe('Poolballz app venue submission', () => {
