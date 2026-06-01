@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/biobitworks/poolballz#readme",
   "dependencies": {
+    "@vercel/blob": "^2.4.0",
     "@vitejs/plugin-react": "^5.0.4",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.544.0",

@@ -23,7 +23,10 @@ The Playwright install command is only needed if browser binaries are missing.
 - Users can add a pool hall or pool bar.
 - Users can provide table count, vibe, table cost, drink cost, crowd level, and busy times.
 - Users can update local intel for an existing venue.
-- The app persists MVP data in browser localStorage.
+- Users can vote up or down on venues, field-level facts, crowd timing, reports, and photos.
+- The app requires device location inside the mapped venue address bounds before edits or votes.
+- The app persists browser cache data in localStorage.
+- The deployed app persists shared community data through Vercel Blob when `BLOB_READ_WRITE_TOKEN` is configured.
 - The app works without Google Maps or API keys.
 
 ## Non-Functional Requirements
@@ -32,6 +35,8 @@ The Playwright install command is only needed if browser binaries are missing.
 - No required secrets for local development.
 - Map lookup must remain user-triggered.
 - Pool-specific facts must be user-entered or explicitly marked as demo/seed data.
+- Server-side writes must not retain raw device latitude/longitude in location proofs.
+- Existing venue edits must validate against stored address bounds, not client-submitted replacement bounds.
 - UI must be usable on desktop and phone-sized screens.
 
 ## Verification Requirements

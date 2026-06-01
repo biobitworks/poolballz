@@ -48,13 +48,23 @@ export function normalizeLookupResult(result) {
     city,
     state: normalizeState(address),
     zip: address.postcode || '',
+    country: address.country || '',
+    countryCode: address.country_code?.toUpperCase() || 'US',
     lat: Number(result.lat),
     lng: Number(result.lon),
+    boundingBox: normalizeBoundingBox(result.boundingbox),
     website: result.extratags?.website || result.extratags?.contact_website || '',
     phone: result.extratags?.phone || result.extratags?.contact_phone || '',
     displayName: result.display_name || result.name || 'OpenStreetMap result',
     source: 'OpenStreetMap',
   };
+}
+
+function normalizeBoundingBox(boundingbox) {
+  if (!Array.isArray(boundingbox) || boundingbox.length !== 4) return null;
+  const [south, north, west, east] = boundingbox.map(Number);
+  if (![south, north, west, east].every(Number.isFinite)) return null;
+  return { south, north, west, east };
 }
 
 function normalizeState(address) {

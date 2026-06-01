@@ -27,9 +27,11 @@ Generic maps can tell you where a bar is. Poolballz is for the facts pool player
 
 - OpenStreetMap/Leaflet map pins, no Google Maps dependency.
 - Search the map by venue name and populate address/coordinates from OpenStreetMap.
-- Add pool halls or pool bars manually.
-- Save community reports for tables, vibe, costs, crowd level, and busy windows.
-- LocalStorage persistence for the MVP.
+- Add pool halls or pool bars from mapped address results.
+- Save anonymous community reports for tables, vibe, costs, crowd level, busy windows, photos, access notes, and tips.
+- Vote up or down on venues, field-level facts, crowd timing, reports, and photos.
+- Require device location inside the mapped venue address bounds before edits or votes.
+- Persist shared production data through Vercel Blob, with browser localStorage as the offline/local cache.
 - Desktop and mobile responsive UI.
 - Unit and Playwright e2e coverage.
 
@@ -39,7 +41,7 @@ Generic maps can tell you where a bar is. Poolballz is for the facts pool player
 - npm
 - A modern browser
 
-No API keys are required.
+No API keys are required for local UI work. Shared production persistence uses Vercel Blob via `BLOB_READ_WRITE_TOKEN`, which is injected by the linked Vercel project and kept out of git.
 
 ## Quick Start
 

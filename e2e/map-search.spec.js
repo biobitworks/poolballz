@@ -58,7 +58,7 @@ test('searches the map by name, drops a pin, and seeds the add form', async ({ p
   const add = page.locator('#add');
   await expect(add.getByLabel('Venue Name')).toHaveValue('Thee Stork Club');
   await expect(add.getByLabel('City')).toHaveValue('Oakland');
-  await expect(add.getByLabel('State')).toHaveValue('CA');
+  await expect(add.getByLabel('State', { exact: true })).toHaveValue('CA');
   await expect(add.getByLabel('Latitude')).toHaveValue('37.8131364');
 
   expect(consoleErrors).toEqual([]);
