@@ -722,24 +722,24 @@ function VenueDetails({ venue, onReport }) {
         </span>
         <span>
           <Users size={24} aria-hidden="true" />
-          <b>{venue.vibe}</b>
+          <b>{venue.vibe || '—'}</b>
           Vibe
         </span>
         <span>
           <Star size={24} aria-hidden="true" />
-          <b>{venue.tableRate}</b>
+          <b>{venue.tableRate || '—'}</b>
           Table Cost
         </span>
         <span>
           <Beer size={24} aria-hidden="true" />
-          <b>{venue.drinkCost}</b>
+          <b>{venue.drinkCost || '—'}</b>
           Drinks
         </span>
       </div>
 
       <div className="intel-strip">
-        <span>{venue.crowdLevel}</span>
-        <strong>{venue.busyTimes}</strong>
+        <span>{venue.crowdLevel || 'Crowd not reported'}</span>
+        <strong>{venue.busyTimes || 'Busy times not reported yet — add a community report.'}</strong>
       </div>
 
       <div className="detail-section">
