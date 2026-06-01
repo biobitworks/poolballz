@@ -181,10 +181,47 @@ function Directory({ venues, selectedId, onSelect, filters, setFilters }) {
   );
 }
 
-function OpenMap({ venues, selectedId, onSelect, draftPin, onPinChange }) {
+function OpenMap({ venues, selectedId, onSelect, draftPin, onPinChange, onResultSelect }) {
   const mapRef = useRef(null);
   const containerRef = useRef(null);
   const layerRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchStatus, setSearchStatus] = useState('');
+
+  async function handleMapSearch(event) {
+    event.preventDefault();
+    if (!searchQuery.trim()) {
+      setSearchStatus('Enter a venue name to search the map.');
+      return;
+    }
+    setSearchStatus('Searching OpenStreetMap...');
+    setSearchResults([]);
+    try {
+      const results = await searchVenueByName({ name: searchQuery });
+      setSearchResults(results);
+      setSearchStatus(
+        results.length
+          ? `${results.length} match${results.length > 1 ? 'es' : ''} found - pick one to drop a pin.`
+          : 'No matches found on the map.',
+      );
+    } catch {
+      setSearchStatus('Map search is unavailable right now.');
+    }
+  }
+
+  function pickResult(result) {
+    const lat = Number(result.lat);
+    const lng = Number(result.lng);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      mapRef.current?.setView([lat, lng], 16);
+      onResultSelect(result);
+      setSearchStatus(`${result.name || 'Venue'} centered on the map.`);
+    } else {
+      setSearchStatus('That result has no map location.');
+    }
+    setSearchResults([]);
+  }
 
   useEffect(() => {
     let disposed = false;
@@ -268,6 +305,35 @@ function OpenMap({ venues, selectedId, onSelect, draftPin, onPinChange }) {
         <h2 id="map-heading">Open Map Pins</h2>
         <span>OpenStreetMap</span>
       </div>
+      <form className="map-search" role="search" onSubmit={handleMapSearch}>
+        <label className="search-box">
+          <Search size={18} aria-hidden="true" />
+          <span className="sr-only">Search the map by venue name</span>
+          <input
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search the map by name (e.g. Stork Club)"
+          />
+        </label>
+        <button className="secondary-button" type="submit">
+          Search Map
+        </button>
+      </form>
+      {searchStatus && (
+        <p className="lookup-status" role="status">
+          {searchStatus}
+        </p>
+      )}
+      {searchResults.length > 0 && (
+        <div className="lookup-results" aria-label="Map search results">
+          {searchResults.map((result) => (
+            <button key={result.id} type="button" onClick={() => pickResult(result)}>
+              <strong>{result.name || 'Unnamed venue'}</strong>
+              <span>{result.displayName}</span>
+            </button>
+          ))}
+        </div>
+      )}
       <div className="map-canvas" ref={containerRef} aria-label="OpenStreetMap venue map" />
       <div className="pin-readout">
         <Crosshair size={16} aria-hidden="true" />
@@ -277,7 +343,7 @@ function OpenMap({ venues, selectedId, onSelect, draftPin, onPinChange }) {
   );
 }
 
-function AddVenueForm({ onAdd, draftPin, onPinChange }) {
+function AddVenueForm({ onAdd, draftPin, onPinChange, seed }) {
   const [form, setForm] = useState(defaultForm);
   const [message, setMessage] = useState('');
   const [lookupStatus, setLookupStatus] = useState('');
@@ -286,6 +352,27 @@ function AddVenueForm({ onAdd, draftPin, onPinChange }) {
   useEffect(() => {
     setForm((current) => ({ ...current, lat: draftPin.lat, lng: draftPin.lng }));
   }, [draftPin]);
+
+  // Prefill the form when a map search result is picked elsewhere on the page.
+  useEffect(() => {
+    if (!seed) return;
+    const lat = Number(seed.lat);
+    const lng = Number(seed.lng);
+    setForm((current) => ({
+      ...current,
+      name: seed.name || current.name,
+      address: seed.address || current.address,
+      city: seed.city || current.city,
+      state: seed.state || current.state,
+      zip: seed.zip || current.zip,
+      phone: seed.phone || current.phone,
+      website: seed.website || current.website,
+      lat: Number.isFinite(lat) ? lat : current.lat,
+      lng: Number.isFinite(lng) ? lng : current.lng,
+    }));
+    setLookupStatus(`${seed.name || 'Venue'} loaded from map search - review and add it.`);
+    setLookupResults([]);
+  }, [seed]);
 
   function updateField(field, value) {
     setForm((current) => ({ ...current, [field]: value }));
@@ -813,6 +900,7 @@ export default function App() {
   const [venues, setVenues] = useState(() => loadVenues());
   const [selectedId, setSelectedId] = useState(() => loadVenues()[0]?.id);
   const [draftPin, setDraftPin] = useState(AUSTIN_CENTER);
+  const [formSeed, setFormSeed] = useState(null);
   const [locationStatus, setLocationStatus] = useState('');
   const [filters, setFilters] = useState({
     query: '',
@@ -846,6 +934,17 @@ export default function App() {
       () => setLocationStatus('Location permission was denied or unavailable.'),
       { enableHighAccuracy: true, timeout: 10000 },
     );
+  }
+
+  function handleMapResult(result) {
+    const lat = Number(result.lat);
+    const lng = Number(result.lng);
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      setDraftPin({ lat, lng });
+    }
+    // Seed the Add-Venue form so a map search result is immediately addable.
+    // New object each time so repeated picks of the same venue still re-seed.
+    setFormSeed({ ...result, seededAt: result.id });
   }
 
   function handleAdd(venue) {
@@ -882,8 +981,14 @@ export default function App() {
             onSelect={setSelectedId}
             draftPin={draftPin}
             onPinChange={setDraftPin}
+            onResultSelect={handleMapResult}
           />
-          <AddVenueForm onAdd={handleAdd} draftPin={draftPin} onPinChange={setDraftPin} />
+          <AddVenueForm
+            onAdd={handleAdd}
+            draftPin={draftPin}
+            onPinChange={setDraftPin}
+            seed={formSeed}
+          />
         </div>
         <VenueDetails venue={selectedVenue} onReport={handleReport} />
       </main>
