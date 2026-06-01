@@ -1,8 +1,12 @@
 {
   "name": "poolballz",
   "version": "0.1.0",
+  "description": "Community-powered pool hall and pool bar finder with OpenStreetMap pins and user-entered table intel.",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
@@ -11,6 +15,14 @@
     "test:e2e": "playwright test",
     "test:ui": "vitest"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/biobitworks/poolballz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/biobitworks/poolballz/issues"
+  },
+  "homepage": "https://github.com/biobitworks/poolballz#readme",
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
     "leaflet": "^1.9.4",
