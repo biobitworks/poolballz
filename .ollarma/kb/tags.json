@@ -1,0 +1,51 @@
+{
+  "doc:135f45a5588538ad67719694a8b371d10a4e28c5efc5ff4ddd9fadb45d7636c5": [
+    "authority:reference",
+    "ext:txt",
+    "kind:documents",
+    "role:docs",
+    "topdir:docs"
+  ],
+  "doc:559695d9c800a140043fa07696b4c3dc4f8fe20ca16874e9a91f7c05b5664058": [
+    "authority:reference",
+    "ext:md",
+    "kind:documents",
+    "role:docs",
+    "topdir:README.md"
+  ],
+  "doc:c9400801410627848863d1b41478e15af2af8d5be6142be4b5e99ed3da6141ed": [
+    "authority:reference",
+    "ext:md",
+    "kind:documents",
+    "role:docs",
+    "topdir:docs"
+  ],
+  "doc:ccebf0879effe6115751c3b112da195d7c267678af4e30042ddc0915410bd2ab": [
+    "authority:reference",
+    "ext:md",
+    "kind:documents",
+    "role:docs",
+    "topdir:docs"
+  ],
+  "doc:f305c780feb1dc71e5849ecbd70379ce2f41c3c9a95eefef1123a438089ca291": [
+    "authority:reference",
+    "ext:md",
+    "kind:documents",
+    "role:docs",
+    "topdir:docs"
+  ],
+  "doc:f80e750bd3e9d31c4d2b6f296eaab0a12feb246252e685479519b25722047e95": [
+    "authority:reference",
+    "ext:md",
+    "kind:config",
+    "role:docs",
+    "topdir:AGENTS.md"
+  ],
+  "doc:f9bcff8eb42798b4f5117c9275ffb0150c48852f779e758dc3dffdf70cbd19a7": [
+    "authority:reference",
+    "ext:md",
+    "kind:documents",
+    "role:docs",
+    "topdir:docs"
+  ]
+}

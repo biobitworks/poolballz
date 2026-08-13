@@ -1,0 +1,12 @@
+{
+  "artifact_root": ".ollarma/kb",
+  "chunk_count": 16,
+  "chunk_set_hash": "sha256:ee9b918fd52b72538be2a985ae00c3bf8059818ae412acaf227fb505b9914887",
+  "document_count": 7,
+  "document_set_hash": "sha256:393a1bee7aac7db4da8e8c7a40ddde91480cf710dad8eadcfe1c88d4ffedbdd0",
+  "freshness_hours": 24,
+  "project": "poolballz",
+  "schema_version": "1",
+  "source_count": 3,
+  "stale_behavior": "warn"
+}
